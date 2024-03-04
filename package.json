@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "molecular": "^0.0.0",
+    "moleculer-db": "^0.8.25",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.1"
+  }
+}
