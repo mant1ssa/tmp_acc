@@ -1,7 +1,7 @@
 const { ServiceBroker } = require("moleculer");
 const DbService = require("moleculer-db");
-const SqlAdapter = require("moleculer-db-adapter-sequelize");
-const Sequelize = require("sequelize");
+// const SqlAdapter = require("moleculer-db-adapter-sequelize");
+// const Sequelize = require("sequelize");
 
 const broker = new ServiceBroker();
 const reg = new Promise(function(res, rej){
@@ -9,18 +9,18 @@ const reg = new Promise(function(res, rej){
 	broker.createService({
 		name: "users",
 		mixins: [DbService],
-		adapter: new SqlAdapter("postgres://user:pass@example.com:5432/dbname"),
-		model: {
-			name: "login",
-			define: {
-				email_address: Sequelize.STRING,
-				phone_number: Sequelize.STRING,
-				password: Sequelize.STRING
-			},
-			options: {
+		// adapter: new SqlAdapter("postgres://user:pass@example.com:5432/dbname"),
+		// model: {
+		// 	name: "login",
+		// 	define: {
+		// 		email_address: Sequelize.STRING,
+		// 		phone_number: Sequelize.STRING,
+		// 		password: Sequelize.STRING
+		// 	},
+		// 	options: {
 				
-			}
-		},
+		// 	}
+		// },
 	});	
 	if(data.query != [] && data.query != indefined){
 		broker.start()
