@@ -1,11 +1,24 @@
-const dotenv = require("dotenv");
-const { pool } = require("./base.js")
-const service = require('../services/auth.service.js')
+console.log("START!\n\n")
 
-dotenv.config();
-
-const foo = async () => {
-    await service();
+const testObj = {
+    isOk: true,
+    obj_cnts: 1
 }
 
-foo()
+const p1 = new Promise((res, rej) => {
+    if(!testObj.isOk) res(testObj)
+    else rej("error")
+})
+
+
+
+console.log(p1)
+
+p1
+.then(
+    suc => console.log(suc),
+    err => console.log(err)
+)
+.catch(err => console.log("error happend"))
+
+console.log(p1)
