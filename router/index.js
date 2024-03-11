@@ -25,10 +25,22 @@ const router = new Router();
 //     next()
 // }
 
-router.get('/a', authMethods.test);
+/**
+ * Middleware проверки авторизации пользователя
+ * @param {object} req - данные запроса, тело и строка
+ * @param {object} res - ответ
+ * @returns {object} next - ХЗ что
+ */
+const expressAuthCheck = (req, res, next) => {
+    // console
+}
+
+router.route('/a/:userId')
+    .get((req, res, next) => 
+        authMethods.test(req.params.userId));
 
 router.route('/registration')
-    .post((req, res, next) => 
-        authMethods.signup(req.body))
+    .post(expressAuthCheck, (req, res, next) => 
+        authMethods.signup(req.body, res))
 
 module.exports = router;
