@@ -1,6 +1,5 @@
 const Router = require('express').Router;
 const authMethods = require('../modules/auth.js');
-const User = require('../schemas/users_schema.js')
 
 const router = new Router();
 
@@ -32,15 +31,64 @@ const router = new Router();
  * @returns {object} next - ХЗ что
  */
 const expressAuthCheck = (req, res, next) => {
-    // console
+    const authString = req.get('Authorization');
+
+    const resu = authMethods.check(authString)
+    resu
+    .then(tokenData =>  {
+        res.status(200).json(tokenData)
+        console.log("here: ", tokenData)
+    })
+    .catch(error => { 
+        console.log(error)
+        res.status(500).json(error)
+    })
+
+    // console.log("resu: ", resu);
+    // res.status(200).json(resu);
+    // next()
 }
 
 router.route('/a/:userId')
-    .get((req, res, next) => 
-        authMethods.test(req.params.userId));
+    .get(async (req, res, next) => {
+        const a = await authMethods.test(req.params.userId);
+        res.status(200).json(a)
+    })
 
 router.route('/registration')
-    .post(expressAuthCheck, (req, res, next) => 
+    .post((req, res, next) => 
         authMethods.signup(req.body, res))
+
+router.route('/verification/')
+    // .all(expressAuthCheck)
+    .post((req, res, next) => 
+        authMethods.verify(req.body, res))
+
+router.route('/loginByPassword')
+    // .all(expressAuthCheck)
+    .post((req, res, next) => 
+        authMethods.signinLogin(req.body, res))
+
+router.route('/loginByPhone')
+    .post(expressAuthCheck, (req, res, next) => 
+        authMethods.signinLogin(req.body, res))
+
+router.route('/passwordRecovery')
+    .post((req, res, next) => 
+        authMethods.passwordRecovery(req.body, res))
+
+router.route('/passwordChange')
+    .post((req, res, next) => 
+        authMethods.passwordChange(req, res))
+
+router.route('/code')
+    // .all(expressAuthCheck)
+    .post((req, res, next) => 
+        authMethods.codeVerify(req.body, res))
+
+router.route('/signout')
+    // .all(expressAuthCheck)
+    .post((req, res, next) => 
+        authMethods.signout(req, res))
 
 module.exports = router;
